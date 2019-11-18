@@ -42,15 +42,15 @@ class Bandit:
 
     def reset(self):
         # real reward for each action
-        self.q_true = np.random.randn(self.k) + self.true_reward
+        self.q_true = np.random.randn(self.k) + self.true_reward # reward behind each arm
 
         # estimation for each action
-        self.q_estimation = np.zeros(self.k) + self.initial
+        self.q_estimation = np.zeros(self.k) + self.initial # initial q(k) value
 
         # # of chosen times for each action
-        self.action_count = np.zeros(self.k)
+        self.action_count = np.zeros(self.k) # store the number of action which has been taken
 
-        self.best_action = np.argmax(self.q_true)
+        self.best_action = np.argmax(self.q_true) # true best action under this task(run)
 
         self.time = 0
 
@@ -76,6 +76,7 @@ class Bandit:
     # take an action, update estimation for this action
     def step(self, action):
         # generate the reward under N(real reward, 1)
+        # reward is a random variable, under normal distribution control by N(q_true, 1)
         reward = np.random.randn() + self.q_true[action]
         self.time += 1
         self.action_count[action] += 1
